@@ -14,12 +14,27 @@ func SumAll(numbersToSum ...[]int) []int {
 	// Sample:
 	// Invoke SumAll	->	SumAll([]int{1, 2}, []int{0, 9})
 	// Internally here	->	numbersToSum := [][]int{{1, 2}, {0, 9}}
-	lenSliceOfSlices := len(numbersToSum)
-	sumsSlice := make([]int, lenSliceOfSlices)
+	lenSlice := len(numbersToSum)
+	sumsResult := make([]int, lenSlice)
 
 	for i, numbers := range numbersToSum {
-		sumsSlice[i] = Sum(numbers)
+		sumsResult[i] = Sum(numbers)
 	}
 
-	return sumsSlice
+	return sumsResult
+}
+
+func SumAllTails(numbersToSum ...[]int) []int {
+	// append and slice[:] functions return a new slice
+	var sumsResult []int
+	for _, numbers := range numbersToSum {
+		if len(numbers) == 0 {
+			sumsResult = append(sumsResult, 0)
+		} else {
+			tail := numbers[1:]
+			sumsResult = append(sumsResult, Sum(tail))
+		}
+	}
+
+	return sumsResult
 }
