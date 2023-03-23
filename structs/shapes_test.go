@@ -29,6 +29,12 @@ func TestArea(t *testing.T) {
 		checkArea(t, rectangle, want)
 	})
 
+	t.Run("triangle", func(t *testing.T) {
+		circle := Triangle{12, 6}
+		want := 36.0
+		checkArea(t, circle, want)
+	})
+
 	t.Run("circles", func(t *testing.T) {
 		circle := Circle{10}
 		want := 314.1592653589793
@@ -37,21 +43,23 @@ func TestArea(t *testing.T) {
 }
 
 func TestAreaTableDrivenTests(t *testing.T) {
-	// Anonymous struct 'areaTests'
+	// Array of Anonymous struct
 	areaTests := []struct {
+		name  string
 		shape Shape
 		want  float64
 	}{
-		{Rectangle{12, 6}, 72.0},
-		{Circle{10}, 314.1592653589793},
-		{Triangle{12, 6}, 36.0},
+		{name: "Rectangle", shape: Rectangle{12, 6}, want: 72.0},
+		{name: "Circle", shape: Circle{10}, want: 314.1592653589793},
+		{name: "Triangle", shape: Triangle{12, 6}, want: 36.0},
 	}
 
 	for _, tt := range areaTests {
-		got := tt.shape.Area()
-		if got != tt.want {
-			t.Errorf("got %g want %g", got, tt.want)
-		}
+		t.Run(tt.name, func(t *testing.T) {
+			got := tt.shape.Area()
+			if got != tt.want {
+				t.Errorf("%#v got %g want %g", tt.shape, got, tt.want)
+			}
+		})
 	}
-
 }
